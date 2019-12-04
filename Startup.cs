@@ -19,19 +19,42 @@ namespace CrudPessoas
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        /*public readonly ILogger _logger;*/
+        public IConfiguration _configuration { get; }
+        public IWebHostEnvironment _environment { get; }
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment/*, ILogger<Startup> logger*/)
         {
-            Configuration = configuration;
+            _configuration = configuration;
+            _environment = environment;
+            /*_logger = logger;*/
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration["MySqlConnection:MySqlConnectionString"];
-            services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
+            var connectionString = _configuration["MySqlConnection:MySqlConnectionString"];
+            services.AddDbContext<MySQLContext>(options => options.UseMySql(connectionString));
             services.AddControllers();
+
+            if (_environment.IsDevelopment())
+            {
+                try
+                {
+                    var evolveConnection = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
+                    var evolve = new Evolve.Evolve(evolveConnection/*, msg => _logger.LogInformation(msg)*/)
+                    {
+                        
+                        Locations = new List<string> { "Database/migrations" },
+                        IsEraseDisabled = true,
+                    };
+                    evolve.Migrate();
+                }
+                catch (Exception e)
+                {
+                    /*_logger.LogCritical("Database exception failed", e);*/
+                    throw e;
+                }
+            }
 
             services.AddApiVersioning();
 

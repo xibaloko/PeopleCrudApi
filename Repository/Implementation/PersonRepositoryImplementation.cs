@@ -56,7 +56,7 @@ namespace CrudPessoas.Business.Implementation
 
         public Person Update(Person person)
         {
-            if (!Exists(person.Id)) return new Person();
+            if (!Exists(person.Id)) return null;
             var result = _context.People.SingleOrDefault(x => x.Id.Equals(person.Id));
             try
             {

@@ -37,11 +37,13 @@ namespace CrudPessoas.Controllers
             return new ObjectResult(_personBusiness.Create(person));
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public IActionResult Put([FromBody] Person person)
         {
             if (person == null) return BadRequest();
-            return new ObjectResult(_personBusiness.Update(person));
+            var updatedPerson = _personBusiness.Update(person);
+            if (updatedPerson == null) return NoContent();
+            return new ObjectResult(updatedPerson);
         }
 
         [HttpDelete("{id}")]
