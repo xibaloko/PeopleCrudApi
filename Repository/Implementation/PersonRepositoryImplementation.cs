@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Linq;
 
-namespace CrudPessoas.Services.Implementation
+namespace CrudPessoas.Business.Implementation
 {
-    public class PersonServiceImplementation : IPersonService
+    public class PersonRepositoryImplementation : IPersonRepository
     {
         private MySQLContext _context;
 
-        public PersonServiceImplementation(MySQLContext context)
+        public PersonRepositoryImplementation(MySQLContext context)
         {
             _context = context;
         }
@@ -56,7 +56,7 @@ namespace CrudPessoas.Services.Implementation
 
         public Person Update(Person person)
         {
-            if (!Exist(person.Id)) return new Person();
+            if (!Exists(person.Id)) return new Person();
             var result = _context.People.SingleOrDefault(x => x.Id.Equals(person.Id));
             try
             {
@@ -70,7 +70,7 @@ namespace CrudPessoas.Services.Implementation
             return person;
         }
 
-        private bool Exist(long? id)
+        public bool Exists(long? id)
         {
             return _context.People.Any(x => x.Id.Equals(id));
         }

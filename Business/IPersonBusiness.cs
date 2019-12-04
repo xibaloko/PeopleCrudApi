@@ -1,9 +1,9 @@
 ﻿using CrudPessoas.Model;
 using System.Collections.Generic;
 
-namespace CrudPessoas.Services
+namespace CrudPessoas.Business
 {
-    public interface IPersonService
+    public interface IPersonBusiness
     {
         Person Create(Person person);
         Person FindById(long id);
