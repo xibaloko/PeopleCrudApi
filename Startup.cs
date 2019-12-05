@@ -19,14 +19,12 @@ namespace CrudPessoas
 {
     public class Startup
     {
-        /*public readonly ILogger _logger;*/
         public IConfiguration _configuration { get; }
         public IWebHostEnvironment _environment { get; }
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment/*, ILogger<Startup> logger*/)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             _configuration = configuration;
             _environment = environment;
-            /*_logger = logger;*/
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -34,27 +32,26 @@ namespace CrudPessoas
         {
             var connectionString = _configuration["MySqlConnection:MySqlConnectionString"];
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connectionString));
-            services.AddControllers();
 
             if (_environment.IsDevelopment())
             {
                 try
                 {
                     var evolveConnection = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
-                    var evolve = new Evolve.Evolve(evolveConnection/*, msg => _logger.LogInformation(msg)*/)
+                    var evolve = new Evolve.Evolve(evolveConnection)
                     {
-                        
-                        Locations = new List<string> { "Database/migrations" },
+                        Locations = new List<string> { "Database/migrations", "Database/dataset" },
                         IsEraseDisabled = true,
                     };
                     evolve.Migrate();
                 }
                 catch (Exception e)
                 {
-                    /*_logger.LogCritical("Database exception failed", e);*/
                     throw e;
                 }
             }
+
+            services.AddControllers();
 
             services.AddApiVersioning();
 
