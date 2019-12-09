@@ -1,13 +1,14 @@
 ﻿using CrudPessoas.Model;
+using CrudPessoas.Repository.Generic;
 using System.Collections.Generic;
 
 namespace CrudPessoas.Business.Implementation
 {
     public class PersonBusinessImplementation : IPersonBusiness
     {
-        private IPersonRepository _repository;
+        private IRepository<Person> _repository;
 
-        public PersonBusinessImplementation(IPersonRepository repository)
+        public PersonBusinessImplementation(IRepository<Person> repository)
         {
             _repository = repository;
         }
