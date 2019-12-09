@@ -1,9 +1,5 @@
 ﻿using CrudPessoas.Model;
-using CrudPessoas.Model.Context;
-using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Linq;
 
 namespace CrudPessoas.Business.Implementation
 {

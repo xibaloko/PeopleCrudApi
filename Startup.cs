@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using CrudPessoas.Repository.Generic;
 
 namespace CrudPessoas
 {
@@ -57,8 +58,10 @@ namespace CrudPessoas
 
             // Dependency injection
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
+            services.AddScoped<IBookBusiness, BookBusinessImplementation>();
             services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
 
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

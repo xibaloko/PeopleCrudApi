@@ -7,7 +7,7 @@ namespace CrudPessoas.Controllers
 {
     [ApiVersion("1")]
     [Route("crudpessoas/[controller]/v{version:apiVersion}")]
-    public class PersonController : Controller
+    public class PersonController : ControllerBase
     {
         private IPersonBusiness _personBusiness;
 
