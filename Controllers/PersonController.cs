@@ -1,7 +1,6 @@
-﻿using CrudPessoas.Model;
-using CrudPessoas.Business;
+﻿using CrudPessoas.Business;
 using Microsoft.AspNetCore.Mvc;
-
+using CrudPessoas.Data.VO;
 
 namespace CrudPessoas.Controllers
 {
@@ -31,14 +30,14 @@ namespace CrudPessoas.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]Person person)
+        public IActionResult Post([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
             return new ObjectResult(_personBusiness.Create(person));
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Person person)
+        public IActionResult Put([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
             var updatedPerson = _personBusiness.Update(person);

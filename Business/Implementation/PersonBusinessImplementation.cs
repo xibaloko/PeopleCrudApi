@@ -1,4 +1,6 @@
-﻿using CrudPessoas.Model;
+﻿using CrudPessoas.Data.Converters;
+using CrudPessoas.Data.VO;
+using CrudPessoas.Model;
 using CrudPessoas.Repository.Generic;
 using System.Collections.Generic;
 
@@ -7,15 +9,19 @@ namespace CrudPessoas.Business.Implementation
     public class PersonBusinessImplementation : IPersonBusiness
     {
         private IRepository<Person> _repository;
+        private readonly PersonConverter _converter;
 
         public PersonBusinessImplementation(IRepository<Person> repository)
         {
             _repository = repository;
+            _converter = new PersonConverter();
         }
 
-        public Person Create(Person person)
+        public PersonVO Create(PersonVO person)
         {
-            return _repository.Create(person);
+            var PersonEntity = _converter.Parse(person);
+            PersonEntity = _repository.Create(PersonEntity);
+            return _converter.Parse(PersonEntity);
         }
 
         public void Delete(long id)
@@ -23,19 +29,21 @@ namespace CrudPessoas.Business.Implementation
             _repository.Delete(id);
         }
 
-        public List<Person> FindAll()
+        public List<PersonVO> FindAll()
         {
-            return _repository.FindAll();
+            return _converter.ParseList(_repository.FindAll());
         }
 
-        public Person FindById(long id)
+        public PersonVO FindById(long id)
         {
-            return _repository.FindById(id);
+            return _converter.Parse(_repository.FindById(id));
         }
 
-        public Person Update(Person person)
+        public PersonVO Update(PersonVO person)
         {
-            return _repository.Update(person);
+            var PersonEntity = _converter.Parse(person);
+            PersonEntity = _repository.Update(PersonEntity);
+            return _converter.Parse(PersonEntity);
         }
     }
 }
