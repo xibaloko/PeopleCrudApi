@@ -2,6 +2,7 @@
 using CrudPessoas.Data.VO;
 using CrudPessoas.Model;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace CrudPessoas.Controllers
 {
@@ -17,12 +18,20 @@ namespace CrudPessoas.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<BookVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Get()
         {
             return Ok(_bookBusiness.FindAll());
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(BookVO))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Get(long id)
         {
             var book = _bookBusiness.FindById(id);
@@ -31,6 +40,9 @@ namespace CrudPessoas.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(201, Type = typeof(BookVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Post([FromBody] BookVO book)
         {
             if (book == null) return BadRequest();
@@ -38,6 +50,9 @@ namespace CrudPessoas.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(202, Type = typeof(BookVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Put([FromBody] BookVO book)
         {
             if (book == null) return BadRequest();
@@ -47,6 +62,9 @@ namespace CrudPessoas.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Delete(int id)
         {
             _bookBusiness.Delete(id);

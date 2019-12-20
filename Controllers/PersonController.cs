@@ -1,6 +1,8 @@
 ﻿using CrudPessoas.Business;
 using Microsoft.AspNetCore.Mvc;
 using CrudPessoas.Data.VO;
+using System.Collections.Generic;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace CrudPessoas.Controllers
 {
@@ -16,12 +18,20 @@ namespace CrudPessoas.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<PersonVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Get()
         {
             return Ok(_personBusiness.FindAll());
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(PersonVO))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Get(long id)
         {
             var person = _personBusiness.FindById(id);
@@ -30,6 +40,9 @@ namespace CrudPessoas.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(201, Type = typeof(PersonVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Post([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -37,6 +50,9 @@ namespace CrudPessoas.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(202, Type = typeof(PersonVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Put([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -46,6 +62,9 @@ namespace CrudPessoas.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Delete(int id)
         {
             _personBusiness.Delete(id);
